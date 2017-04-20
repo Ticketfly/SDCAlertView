@@ -28,32 +28,32 @@ public enum ActionLayout: Int {
 }
 
 @objc(SDCAlertController)
-public class AlertController: UIViewController {
+open class AlertController: UIViewController {
 
     private lazy var assignResponder: () -> Bool = { [weak self] _ in
         self?.textFields?.first?.becomeFirstResponder() ?? false
     }
 
     /// The alert's title. Directly uses `attributedTitle` without any attributes.
-    override public var title: String? {
+    override open var title: String? {
         get { return self.attributedTitle?.string }
         set { self.attributedTitle = newValue.map(NSAttributedString.init) }
     }
 
     /// The alert's message. Directly uses `attributedMessage` without any attributes.
-    public var message: String? {
+    open var message: String? {
         get { return self.attributedMessage?.string }
         set { self.attributedMessage = newValue.map(NSAttributedString.init) }
     }
 
     /// A stylized title for the alert.
-    public var attributedTitle: NSAttributedString? {
+    open var attributedTitle: NSAttributedString? {
         get { return self.alertView.title }
         set { self.alertView.title = newValue }
     }
 
     /// A stylized message for the alert.
-    public var attributedMessage: NSAttributedString? {
+    open var attributedMessage: NSAttributedString? {
         get { return self.alertView.message }
         set { self.alertView.message = newValue }
     }
@@ -61,7 +61,7 @@ public class AlertController: UIViewController {
     /// The alert's content view. This can be used to add custom views to your alert. The width of the content
     /// view is equal to the width of the alert, minus padding. The height must be defined manually since it
     /// depends on the size of the subviews.
-    public var contentView: UIView {
+    open var contentView: UIView {
         return self.alertView.contentView
     }
 
@@ -110,7 +110,7 @@ public class AlertController: UIViewController {
     public var shouldDismissHandler: ((AlertAction?) -> Bool)?
 
     /// The visual style that applies to the alert or action sheet.
-    public lazy var visualStyle: AlertVisualStyle = AlertVisualStyle(alertStyle: self.preferredStyle)
+    open lazy var visualStyle: AlertVisualStyle = AlertVisualStyle(alertStyle: self.preferredStyle)
 
     /// The alert's presentation style.
     private(set) public var preferredStyle: AlertControllerStyle = .alert
@@ -204,19 +204,19 @@ public class AlertController: UIViewController {
     /// - parameter animated:   Whether to dismiss the alert animated.
     /// - parameter completion: An optional closure that's called when the dismissal finishes.
     @objc(dismissViewControllerAnimated:completion:)
-    public override func dismiss(animated: Bool = true, completion: (() -> Void)? = nil) {
+    open override func dismiss(animated: Bool = true, completion: (() -> Void)? = nil) {
         self.presentingViewController?.dismiss(animated: animated, completion: completion)
     }
 
     // MARK: - Override
 
-    public override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         self.listenForKeyboardChanges()
         self.configureAlertView()
     }
 
-    public override func viewDidLayoutSubviews() {
+    open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         // Explanation of why the first responder is set here:
@@ -227,7 +227,7 @@ public class AlertController: UIViewController {
         }
     }
 
-    public override var preferredStatusBarStyle: UIStatusBarStyle {
+    open override var preferredStatusBarStyle: UIStatusBarStyle {
         return self.presentingViewController?.preferredStatusBarStyle ?? .default
     }
 
